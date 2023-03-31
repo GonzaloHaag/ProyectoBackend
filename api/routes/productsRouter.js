@@ -3,15 +3,15 @@ const express = require("express");
 //const {faker} = require('@faker-js/faker'); //Traemos la dependencia faker
 
 
-const ProductsService = require('./../services/productService'); //Traigo el archivo
+const ProductsService = require('../services/productService'); //Traigo el archivo
 
 //Treaermos el middleware que valida los datos
 
-const validatorHandler = require('./../middlewares/validatorHandler');
+const validatorHandler = require('../middlewares/validatorHandler');
 
 //Ahora me traigo todos los esquemas que tengo, para crear, actualizar..
 
-const {createProductEsquema,updateProductEsquema,getProductEsquema} = require('./../esquemas/productEsquema');
+const {createProductEsquema,updateProductEsquema,getProductEsquema} = require('../esquemas/productEsquema');
 
 const router = express.Router(); //Creamos un router propio
 const service = new ProductsService(); //Creo una instancia de ese servicio

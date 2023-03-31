@@ -361,7 +361,20 @@ No es una buena solucion darle acceso a todo el mundo, por lo que
 daremos acceso solo a algunos origenes en especifico:
 
 
-DEPLOYMENT EN railway : Ver video, se hace dese github
+
+
+DEPLOYMENT EN VERCEL PARA NUESTRAS APIS
+
+Importamos el proyecto a vercel desde github
+principalmente vercel lee el codigo como frontend, Debemos
+hacer unas configuraciones para que lea el codigo como Backend
+Abrimos terminal : Todo debe estar en la rama main
+Debemos crear una carpeta llamada api e enviar las carpetas de
+routes,esquemas,servicios,middleware y el archivo index.js
+
+
+Recordar crear el vercel.json
+
 
 
 

@@ -50,17 +50,17 @@ app.use(cors(options)); //Le paso las opciones para que tengan acceso solo lo qu
 
 
 
-app.get('/',(req,res)=>{ //ruta('/' -> ruta por defecto), tenemos dos parametros(req,res)
+app.get('/api',(req,res)=>{ //ruta('/' -> ruta por defecto), tenemos dos parametros(req,res)
 
     //Res es la respuesta que le doy a mi cliente
 
-    res.status(200).send({msg:`Hola Gonzalo`}); //Lo que aparecera en la pagina
+    res.status(200).send({msg:`Hola server en express`}); //Lo que aparecera en la pagina
 
 });
-app.get('/nueva-ruta',(req,res)=>{
+app.get('/api/nueva-ruta',(req,res)=>{
   res.status(200).send({msg:"Soy la nueva ruta"}); //DIRA ESTO AL PONER /nueva-ruta
 })
-app.post("/welcome",(req,res)=>{
+app.post("/api/welcome",(req,res)=>{
   const{username} = req.body;
   res.status(200).send({msg:`Hola, ${username}`});
 
