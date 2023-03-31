@@ -1,0 +1,36 @@
+
+<!--Simulacion de app frontend para probar el backend-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+
+
+      //Aca hacemos una peticion
+      /*
+      Nos dara un error de acceso ya que estan en puertos
+      diferentes el frontend y el backend
+      Solucion: npm i cors y la importo en el index.js
+      y luego pongo app.use(cors()); eso habilita cualquier dominio a utilizarla
+
+      */
+     (async ()=>{
+      const response = await fetch('http://localhost:3000/api/v1/products');
+      const data = await response.json();
+      console.log(data); //Ahora me traera todos todo el array de productos
+
+      //Ahora ya puedo hacer lo que quiera con la informacion desde el lado del frontend
+     }) ();
+
+
+  </script>
+
+</body>
+</html>

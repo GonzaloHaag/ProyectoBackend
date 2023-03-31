@@ -1,0 +1,378 @@
+PLATZI --
+
+Backend con Node.js
+
+Express.js : framework que corre en node.js
+
+Preparo mi entorno.
+
+Elijo una direccion de carpeta y luego abrir en el cmd y escribir:
+mkdir my-store (creacion de carpeta)
+
+Luego parado en la carpeta: code . (para abrir visual studio)
+
+
+En la terminal :
+npm init -y (configuracion por defecto) -> Crea un package.json
+git init
+
+https://www.toptal.com/developers/gitignore para pegar en mi gitignore
+
+en la terminal :npm i nodemon eslint eslint-config-prettier eslint-plugin-prettier prettier-D
+npm run dev -> Para correr mi proyecto
+npm run start -> Para que lo corra como un servidor plano
+
+//Clase 2
+
+//Primer server
+
+npm i express (se agrega una dependencia: express) -> En el package.json
+
+para correr mi app :
+
+npm run dev -> aparecera en el puerto que esta corriendo
+Vamos al navegador y ponemos http://localhost:3000/ y saldra("Hola mi primer server en express");
+
+
+//ROUTING - RUTAS
+
+Para crear una nueva ruta, por ejemplo de los productos:
+
+app.get('/nueva-ruta',(req,res)=>{
+  res.send("Hola, soy una nueva ruta"); //DIRA ESTO AL PONER /nueva-ruta
+})
+app.get('/products',(req,res)=>{
+  //res.json("Productos"); //Comunicamos datos en formato json(una api) porque enviaremos un obejeto
+
+  res.json([
+    {
+      name:"Product 1",
+      price:1000
+    },
+    {
+      name:"Product 2",
+      price:2000
+    }
+
+  ])
+
+API RESTFUL
+
+Rest : Convencion que en backend se utiliza para los servicios web, que
+se comunican a traves de un protocolo http
+
+Metodos : GET - PUT - POST - DELETE
+
+GET: Podemos solicitar informacion, por ejemplo puedo pedir que me
+retorne los productos que estan en la base de datos
+PUT : Puedo solicitar algo en detalle, por ejemplo si quiero un productos
+con un ID especificado
+
+POST : Crear nuevos productos, categorias.
+DELETE : Sirve para hacer eliminaciones
+
+Si yo quiero obtener la lista de productos :
+
+/products metodo GET
+
+Producto en particular
+/products/{id}
+
+
+COMO FUNCIONA GET para recibir parametros :
+
+api.example.com/tasks/{id}/ --> Tarea especificaa
+api.exampe.com/peopl/{id}/
+api.example.com/users/{id}/tasks/ -> Tarea especifica de un usuario
+
+Query Params : Vienen en los metodos GET
+api.example.com/products
+api.example.com/products?page=1 Pagina 1
+api.example.com/products?region=USA  Filtrado para los que tengan la region USA
+
+Dependencia para generar productos falsos
+
+Instalamos faker -> npm i @faker-js/faker (genera productos con data de mentira)
+Recordar ejecutar npn run dev para correr mi app en el puerto
+
+
+
+Prinicipio de una sola responsabilidad :
+
+Cada pieza de codigo debe tener una sola responsabilidad.
+Si tengo un metodo sumar, solo deberia sumar, no hacer otra cosa.
+Esto tambien va para los archivos, si tenemos muchas rutas, crear
+una carpeta routes que tenga todas las rutas
+
+
+Instalar insomnia : Como cliente para probar APIs tiene grandes características, destaca principalmente por una interfaz limpia y sencilla,
+pero a la vez potente, en donde puede configurar ambientes,
+exportar e importar, gran soporte con GraphQL, etc.
+Insomnia será el que vamos a usar en este curso 🙂
+
+
+METODO POST : Creacion de alguna entidad, productos,tareas,usuarios.
+Copiamos la url del host con el /products y obtenemos los productos a traves de insomnia
+Obtendremos el resultado en insomnia en vez del navegador
+
+Para utilizar POST : Le damos a duplicar y elegimos un nombre(create product)
+Y a ese create product le cambiamos el metodo de GET a POST
+Luego en body ponemos JSON para escribir el producto en formato JSON
+Si le doy a enviar lo mas probable es que me de error, ya que no he creado
+el metodo que atienda a POST en el enpoint de los productos.
+
+METODOS DELETE,PUT Y PATCH :
+
+El metodo PUT sirve para actualizar un producto,hay que pasarle
+si o si todos los campos que tiene un producto en especifico.
+Hay un metodo mas flexbile al cual no le tendremos que pasar si o si
+todos los campos, y podremos actualizarlo parcialmente, el metodo
+encargado es el PATCH(le envio solo lo que quiero cambiar)
+
+
+
+STATUS CODE : Estandar que permite saber que paso con la solicitud
+Un ejemplo es el error 404.
+
+200: Es que esta todo bien
+
+201 : Se creo un producto de forma exitosa
+router.post('/',(req,res)=>{
+  const body = req.body; //Quiero TODO
+  res.status(201).json({ //El 201 representa un status code,quiere decir que se creo correctamente
+    message : 'created',
+    data:body //Data que me llega
+  })
+})
+
+404:Error
+
+router.get('/:id',(req,res)=>{ //Quiero un producto con un determinado id(le paso el metodo get)
+
+  //De los parametros, solo me interesa el id
+const{id} = req.params //Esta info viene el req, dentro del params.id(estoy recibiendo el id del producto)
+
+if(id == 999) { //Si el id por ruta es 999 quiero un status code de 404(error de no encontrado)
+  res.status(404).json({
+    message: 'not fund'
+  });
+}
+else { //Si es otro, que este bien
+res.status(200).json( { //El status code de 200 es que esta todo bien
+
+  //Ahora lo que yo ponga en la ruta /products/12 -> Saldra 12 como id del producto 2
+  //products/12 --> id:12 name:"Product 2" price:2000
+  id, //Devolvemos el id
+  name:"Product 2",
+  price:2000
+});
+}
+
+});
+
+//ARRIBA A LA DERECHA ESTA EL CODIGO DE ERROR O CORRECTO EN INSOMNIA
+
+
+
+Create - update y delete :
+
+
+
+
+Async: Todo funciona de forma asincronica . Normalmente nos conectamos
+a fuentes de servicios de forma asincronica.
+Debemos saber como manejar cosas de forma asincronica,porque hasta Ahora
+todo era un array en memoria y sucedia todo de forma instantanea.
+
+Se soluciona poniendo un async delante de nuestros metodos
+async find()
+async update()
+async....
+
+Al poner async node lo interpretara como una promesa, por lo tanto
+funcionara de manera asincronica
+
+
+Middlewares :
+
+Estan en medio del Reques(req) t y del Response(res)
+
+El Middleware nos permite procesar la logica,pueden ser utilizados De
+forma global o de forma unica para cada uno  de los enpoints
+
+Podemos tener varios middlewares. Que uno se ejecute y luego siga al otro.
+Ejemplo :
+
+Que el primer Middleware empiece a validar logica de si tenemos
+autenticacion(si el usuario esta logeado) entonces ejecutamos la logica
+y lo dejamos pasar.
+En el segundo validamos la data y asi.....
+Un Middleware en algun momento puedo bloquear y no deja pasarlo al siguiente.
+
+Estructura logica de los MIDDLEWARES :
+function(req,res,next) {
+  if(something) {
+    res.send("fin);
+  }
+  else{
+    next();
+  }
+}
+
+El next permite ejecuta y seguir al siguiente middleware en caso
+de que queramos.
+Un Middleware es un manejador de peticiones antes de que lleguen a su
+endpoint final
+
+function (error,req,res,next) {
+  if(error){
+    res.status(500).json({error})
+  }
+  else{
+    next();
+  }
+}
+
+Sus casos de usos son :
+   -Validar datos
+   -Capturar errores
+   -Validad permisos
+   -Controlar accesos
+
+
+Middleware Para los errores : Global , no uno por uno
+
+function (error,req,res,next){
+
+  console.error();
+  next(error);
+
+}
+
+!!Los middlewares de tipo error se deben definir despues del router
+
+Manejo de erorres con BOOM : Libreria muy util
+npm i @hapi/boom
+
+Validacion de datos con joi
+
+Un caso de uso de los middleware son la validacion de datos que me estan
+enviando desde el cliente . Si tengo un app en react, que me la esten enviando de alli.
+
+Yo puedo validar como backend que llegue la informacion correcta.
+
+npm docs joi para ver la documentacion
+
+npm i joi -> Libreria para la validacion
+
+Creamos una carpeta esquemas
+
+//Validaremos datos que me esten enviando desde el cliente
+
+
+const Joi = require('joi'); //Llamo a la libreria
+
+const id = Joi.string().uuid(); //Especificamos que es un string
+
+/*
+El nombre es un string, y pondremos que tiene que ser alfanumerico,
+y que tiene que tener minimo 3 caracteres y maximo 15
+*/
+const nombre = Joi.string().alphanum().min(3).max(15);
+const precio = Joi.number().integer().min(10);//Es numero entero, minimo 10 dolares
+
+//Esquema para la creacion, el que une todos los campos
+
+const createProductEsquema = Joi.object({
+  nombre : nombre.required(), //Que sea requerido
+  price : price.required(),
+
+});
+
+//Esquema para la actualizacion del producto
+
+const updateProductEsquema = Joi.object({
+  nombre : nombre,
+  price : price,
+});
+
+const getProductEsquema = Joi.object({
+    id: id.required(), //Es requerido el id
+
+})
+module.exports = {createProductEsquema,updateProductEsquema,getProductEsquema}
+
+
+--Probando los endpoints
+
+Middlewares populares en Express
+A continuación te compartiré una lista de los middlewares más populares en Express.
+
+CORS
+Middleware para habilitar CORS (Cross-origin resource sharing) en nuestras rutas o aplicación. http://expressjs.com/en/resources/middleware/cors.html
+
+Morgan
+Un logger de solicitudes HTTP para Node.js. http://expressjs.com/en/resources/middleware/morgan.html
+
+Helmet
+Helmet nos ayuda a proteger nuestras aplicaciones Express configurando varios encabezados HTTP. ¡No es a prueba de balas de plata, pero puede ayudar! https://github.com/helmetjs/helmet
+
+Express Debug
+Nos permite hacer debugging de nuestras aplicaciones en Express mediante el uso de un toolbar en la pagina cuando las estamos desarrollando. https://github.com/devoidfury/express-debug
+
+Express Slash
+Este middleware nos permite evitar preocuparnos por escribir las rutas con o sin slash al final de ellas. https://github.com/ericf/express-slash
+
+Passport
+Passport es un middleware que nos permite establecer diferentes estrategias de autenticación a nuestras aplicaciones. https://github.com/jaredhanson/passport
+
+Puedes encontrar más middlewares populares en el siguiente enlace: http://expressjs.com/en/resources/middleware.html
+
+CONSIDERACIONES PARA MI APLICACION EN PRODUCCION :
+
+  Recomendaciones :
+    .Cors : Evaluar los cors, a quien le damos acceso para que hagan
+    solicitudes.
+    .Https : Que nuestra api este en un servidos https
+    .Procesos de build: Esto se ve en cosas que tienen que procesar
+    informacion
+    .Remover los console.log(),no es bueno tenerlo
+    .Seguridad(Helmet) -> Coleccion de midlewares que pone una Capa
+    de seguridad a mi app
+    .Testing
+
+
+CORS : Nuestros servidores tienen una proteccion por defecto, y es que
+solo aceptan una peticion desde su origen
+
+En nuestro caso estamos en un dominio : localhost
+Si las peticiones salen desde el mismo origen, nuestro backend
+acepta la peticion sin problema .
+
+Pero que pasa si tengo diferentes origines(Lo mas comun).
+Por defecto el backend los va a cancelar
+Para solucionarlo :
+
+npm i cors
+
+Solucion: npm i cors y la importo en el index.js
+y luego pongo app.use(cors());eso habilita cualquier dominio a utilizarla
+No es una buena solucion darle acceso a todo el mundo, por lo que
+daremos acceso solo a algunos origenes en especifico:
+
+
+DEPLOYMENT EN railway :
+En la terminal :
+npm i -g @railway/cli
+
+
+
+
+
+
+
+
+
+
+
+
