@@ -361,9 +361,8 @@ No es una buena solucion darle acceso a todo el mundo, por lo que
 daremos acceso solo a algunos origenes en especifico:
 
 
-DEPLOYMENT EN railway :
-En la terminal :
-npm i -g @railway/cli
+DEPLOYMENT EN railway : Ver video, se hace dese github
+
 
 
 
